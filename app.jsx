@@ -18,10 +18,8 @@ class Model {
         id: 3
       }
     ];
-    this.array = [];
-    console.log(this.array);
     this.callback = null;
-    this.value = undefined;
+    this.inputValue = undefined;
     this.index = 0;
   }
   subscribe(render) {
@@ -38,6 +36,10 @@ class Model {
   getPlayer(a, b) {
     const maper = this.players.map((a = a.score));
   }
+  updateTodo(index, todo) {
+    this.todos[index] = todo; // el array en la posicion index = todo
+    this.inform();
+ }
   decrement(num){
     this.players[num].score--
 
@@ -48,8 +50,18 @@ class Model {
     this.players[num].score++
     this.notify();
     };
+  addPlayer(newPlayer) {
+    this.players.push({
+      name: newPlayer,
+      score: 0,
+      id: this.players.id++
+    })
+    this.notify();    
+    console.log(this.addPlayer);
+    
+    }
 }
-const Header = props => {
+const Header = ({model}) => {
   return (
     <div>
       <header className=" header">
@@ -68,49 +80,48 @@ const Header = props => {
   );
 };
 
-function moostra(players, score) {
-  return players.map((index, num) => {
+function moostra() {
+  return model.players.map((a, b) => {
     return (
-      <div>
-        <div >
+      <div key={b}>
           <div className="player">
-            <p className="player-name">{index.name}</p>
+            <p className="player-name">{a.name}</p>
             <div className="player-score counter">
               <button
-                onClick={() => model.decrement(num)}
+                onClick={() => model.decrement(b)}x
                 className="counter-action decrement btn"
               >
                 -
               </button>
-              <span id='counter' className="counter-score">{index.score}</span>
+              <span id='counter' className="counter-score">{a.score}</span>
               <button
-                onClick={() => model.increment(num)}
+                onClick={() => model.increment(b)}
                 className="counter-action increment btn"
               >
                 +
               </button>
             </div>
-          </div>
         </div>
       </div>
     );
   });
 }
-const PlayerList = props => {
-  return <div  key={model.players.id}  >{moostra(model.players, model.players.score)}</div>;
+const PlayerList = ({model}) => {
+  return <div>{moostra()}</div>;
 };
 
-const PlayerForm = props => {
+const PlayerForm = ({model}) => {
   return (
     <div className="add-player-form">
       <form
         onSubmit={e => {
           e.preventDefault();
+          model.addPlayer(model.inputValue);
         }}
       >
         <input
-          onChange={e => model.array.push(e.target.value)}
-          type="text"
+          onChange={(e) =>(model.inputValue = e.target.value)}
+          type="text" 
           placeholder="ENTER A NAME"
         />
         <input type="submit" value="add player" />
@@ -119,20 +130,20 @@ const PlayerForm = props => {
   );
 };
 
-const Application = ({ title, players }) => {
+const Application = ({ title, model }) => { // la vista son las etiquetas con jsx
   return (
     <div className="scoreboard">
-      <Header players={players} />
-      <PlayerList players={players} />
-      <PlayerForm />
+      <Header model={model} />
+      <PlayerList model={model} />
+      <PlayerForm  model={model} />
     </div>
   );
 };
-let model = new Model();
 
+let model = new Model(); // un modelo es una clase con funciones
 let render = () => {
   ReactDOM.render(
-    <Application title="Scoreboard" model={Model} />,
+    <Application title="Scoreboard" model={model}/>,
     document.getElementById("container")
   );
 };

@@ -1,6 +1,5 @@
-
 class Model {
-  constructor(index,num) {
+  constructor(index, num) {
     this.players = [
       {
         name: "Jim Hoskins",
@@ -39,29 +38,27 @@ class Model {
   updateTodo(index, todo) {
     this.todos[index] = todo; // el array en la posicion index = todo
     this.inform();
- }
-  decrement(num){
-    this.players[num].score--
+  }
+  decrement(num) {
+    this.players[num].score--;
 
     this.notify();
-    
-  };
+  }
   increment(num) {
-    this.players[num].score++
+    this.players[num].score++;
     this.notify();
-    };
+  }
   addPlayer(newPlayer) {
     this.players.push({
       name: newPlayer,
       score: 0,
       id: this.players.id++
-    })
-    this.notify();    
+    });
+    this.notify();
     console.log(this.addPlayer);
-    
-    }
+  }
 }
-const Header = ({model}) => {
+const Header = ({ model }) => {
   return (
     <div>
       <header className=" header">
@@ -84,33 +81,36 @@ function moostra() {
   return model.players.map((a, b) => {
     return (
       <div key={b}>
-          <div className="player">
-            <p className="player-name">{a.name}</p>
-            <div className="player-score counter">
-              <button
-                onClick={() => model.decrement(b)}x
-                className="counter-action decrement btn"
-              >
-                -
-              </button>
-              <span id='counter' className="counter-score">{a.score}</span>
-              <button
-                onClick={() => model.increment(b)}
-                className="counter-action increment btn"
-              >
-                +
-              </button>
-            </div>
+        <div className="player">
+          <p className="player-name">{a.name}</p>
+          <div className="player-score counter">
+            <button
+              onClick={() => model.decrement(b)}
+              x
+              className="counter-action decrement btn"
+            >
+              -
+            </button>
+            <span id="counter" className="counter-score">
+              {a.score}
+            </span>
+            <button
+              onClick={() => model.increment(b)}
+              className="counter-action increment btn"
+            >
+              +
+            </button>
+          </div>
         </div>
       </div>
     );
   });
 }
-const PlayerList = ({model}) => {
+const PlayerList = ({ model }) => {
   return <div>{moostra()}</div>;
 };
 
-const PlayerForm = ({model}) => {
+const PlayerForm = ({ model }) => {
   return (
     <div className="add-player-form">
       <form
@@ -120,8 +120,8 @@ const PlayerForm = ({model}) => {
         }}
       >
         <input
-          onChange={(e) =>(model.inputValue = e.target.value)}
-          type="text" 
+          onChange={e => (model.inputValue = e.target.value)}
+          type="text"
           placeholder="ENTER A NAME"
         />
         <input type="submit" value="add player" />
@@ -130,12 +130,13 @@ const PlayerForm = ({model}) => {
   );
 };
 
-const Application = ({ title, model }) => { // la vista son las etiquetas con jsx
+const Application = ({ title, model }) => {
+  // la vista son las etiquetas con jsx
   return (
     <div className="scoreboard">
       <Header model={model} />
       <PlayerList model={model} />
-      <PlayerForm  model={model} />
+      <PlayerForm model={model} />
     </div>
   );
 };
@@ -143,7 +144,7 @@ const Application = ({ title, model }) => { // la vista son las etiquetas con js
 let model = new Model(); // un modelo es una clase con funciones
 let render = () => {
   ReactDOM.render(
-    <Application title="Scoreboard" model={model}/>,
+    <Application title="Scoreboard" model={model} />,
     document.getElementById("container")
   );
 };

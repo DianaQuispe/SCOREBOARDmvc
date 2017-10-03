@@ -38,9 +38,18 @@ class Model {
   getPlayer(a, b) {
     const maper = this.players.map((a = a.score));
   }
+  decrement(num){
+    this.players[num].score--
+
+    this.notify();
+    
+  };
+  increment(num) {
+    this.players[num].score++
+    this.notify();
+    };
 }
 const Header = props => {
-  // let sum = props.players.map(a => a.score).reduce((a, b) => a + b);
   return (
     <div>
       <header className=" header">
@@ -58,47 +67,24 @@ const Header = props => {
     </div>
   );
 };
-const decrement = (index, num) => {
-  return model.players.map(function(n, m) {
-    if (m == num) {
-      // console.log(model.index);
-      
-       model.index=index.score--;
-      console.log(model.index);
-    }
-  });
-  
-};
-const increment = (index, num) => {
 
-  return model.players.map(function(n, m) {
-    if (m == num) {
-      model.index=index.score++;
-      console.log(model.index);
-    }
-  });
-};
-// console.log('es: ',  model.index )
-// console.log(document.getElementById('counter').val('s'))
 function moostra(players, score) {
   return players.map((index, num) => {
-    // model.index = index.score;
-    // console.log(model.index)
     return (
       <div>
-        <div>
-          <div key={num} className="player">
+        <div >
+          <div className="player">
             <p className="player-name">{index.name}</p>
             <div className="player-score counter">
               <button
-                onClick={() => decrement(index, num)}
+                onClick={() => model.decrement(num)}
                 className="counter-action decrement btn"
               >
                 -
               </button>
               <span id='counter' className="counter-score">{index.score}</span>
               <button
-                onClick={() => increment(index, num)}
+                onClick={() => model.increment(num)}
                 className="counter-action increment btn"
               >
                 +
@@ -111,7 +97,7 @@ function moostra(players, score) {
   });
 }
 const PlayerList = props => {
-  return <div>{moostra(model.players, model.players.score)}</div>;
+  return <div  key={model.players.id}  >{moostra(model.players, model.players.score)}</div>;
 };
 
 const PlayerForm = props => {
